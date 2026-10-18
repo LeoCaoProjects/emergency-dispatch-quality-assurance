@@ -64,7 +64,7 @@ The GitHub Actions workflow has been deferred while its Linux-only test behaviou
 The final local run must be produced with:
 
 ```powershell
-dotnet test .\Emergency-Dispatch-Priority-and-Coordination-System\Emergency-Dispatch-Priority-and-Coordination-System.slnx --no-restore --logger "trx;LogFileName=final-results.trx" --results-directory Test\TestResults\Final
+dotnet test Dispatch.slnx --no-restore --logger "trx;LogFileName=final-results.trx" --results-directory TestResults/Final
 ```
 
 Record the final totals from that file in the report:

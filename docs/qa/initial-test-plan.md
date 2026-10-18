@@ -1,6 +1,6 @@
 # 7. Initial Test Cases and Requirements Traceability
 
-> Historical Assessment 1 test design. Use `final-test-and-release-evidence.md` for the final implementation, traceability and execution results.
+> Historical Assessment 1 test design. Use `test-evidence.md` for the final implementation, traceability and execution results.
 
 The initial test cases below are derived from the improved requirements in Section 3.4, the acceptance criteria in Section 3.5, and the risk-based testing scope in Section 6.1. The cases focus on the workflows with the greatest potential impact: recording emergency information, creating and prioritising cases, routing cases, assigning response units, and maintaining correct case and unit states. Selected reliability, performance, usability, and concurrency requirements are included where they can be evaluated in the prototype environment.
 
@@ -199,7 +199,7 @@ The matrix should be maintained throughout development rather than treated as a 
 The automated suite was executed on 25 August 2026 using .NET 10 and MSTest 4.0.2. The command was:
 
 ```powershell
-dotnet test .\Emergency-Dispatch-Priority-and-Coordination-System\Emergency-Dispatch-Priority-and-Coordination-System.slnx --nologo
+dotnet test Dispatch.slnx --nologo
 ```
 
 The suite was most recently rerun after the Appendix 1 and Appendix 2 implementation updates. It completed successfully: **103 passed, 0 failed, and 0 skipped**. The total is greater than twelve because TC-04 expands into 85 Appendix priority rows plus a multi-department test, TC-12 expands into six role/path rows, and an additional architecture test verifies that failure of the non-critical notification service cannot break critical dispatch processing.

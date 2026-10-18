@@ -36,8 +36,8 @@ jobs:
           } | tee TestResults/ci-environment.txt
 
           test "$RUNNER_OS" = Linux
-          test -f "Emergency-Dispatch-Priority-and-Coordination-System/Emergency-Dispatch-Priority-and-Coordination-System.slnx"
-          test -f "Emergency-Dispatch-Priority-and-Coordination-System/Test/Test.csproj"
+          test -f "Dispatch.slnx"
+          test -f "tests/Dispatch.Tests/Test.csproj"
 
       - name: Set up .NET 10 SDK
         uses: actions/setup-dotnet@v4
@@ -47,18 +47,18 @@ jobs:
       - name: Record SDK and solution projects
         run: |
           dotnet --info | tee TestResults/dotnet-info.txt
-          dotnet sln "Emergency-Dispatch-Priority-and-Coordination-System/Emergency-Dispatch-Priority-and-Coordination-System.slnx" list | tee TestResults/solution-projects.txt
+          dotnet sln "Dispatch.slnx" list | tee TestResults/solution-projects.txt
 
       - name: Restore dependencies
-        run: dotnet restore "Emergency-Dispatch-Priority-and-Coordination-System/Emergency-Dispatch-Priority-and-Coordination-System.slnx"
+        run: dotnet restore "Dispatch.slnx"
 
       - name: Build solution (Release)
-        run: dotnet build "Emergency-Dispatch-Priority-and-Coordination-System/Emergency-Dispatch-Priority-and-Coordination-System.slnx" --configuration Release --no-restore
+        run: dotnet build "Dispatch.slnx" --configuration Release --no-restore
 
       # Smoke testing
       - name: Run smoke tests
         run: |
-          dotnet test "Emergency-Dispatch-Priority-and-Coordination-System/Test/Test.csproj" \
+          dotnet test "tests/Dispatch.Tests/Test.csproj" \
             --configuration Release \
             --no-build \
             --filter "TestCategory=Smoke" \
@@ -97,7 +97,7 @@ jobs:
       # Full automated test suite
       - name: Run MSTest tests
         run: |
-          dotnet test "Emergency-Dispatch-Priority-and-Coordination-System/Test/Test.csproj" \
+          dotnet test "tests/Dispatch.Tests/Test.csproj" \
             --configuration Release \
             --no-build \
             --logger "trx;LogFileName=TestResults.trx" \

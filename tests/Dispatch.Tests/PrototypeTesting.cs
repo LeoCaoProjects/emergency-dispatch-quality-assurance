@@ -11,7 +11,7 @@ namespace Test;
 
 /// <summary>
 /// Automated coverage for the twelve initial test cases defined in report Section 7.
-/// UI-only portions and design differences are recorded in docs/section-7-test-mismatches.md.
+/// The initial test plan is recorded in docs/qa/initial-test-plan.md.
 /// </summary>
 [TestClass]
 public sealed class PrototypeTesting

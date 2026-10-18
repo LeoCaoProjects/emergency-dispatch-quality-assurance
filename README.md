@@ -1,89 +1,64 @@
-# Emergency Dispatch Priority and Coordination System
+# Emergency dispatch quality assurance
 
-An ENSE707 ASP.NET Core Razor Pages prototype for recording emergency cases, calculating priority,
-routing cases to selected departments, assigning nearby response units, and tracking each case until
-all required units have signed off.
+A team project for software quality assurance at AUT. We developed and tested a c# emergency dispatch prototype, from requirements and design through to defect analysis and verification.
 
-## Run the prototype
+## Our process
 
-From the repository root:
+1. **Define and review requirements.** Defined stakeholders, scope and functional and nonfunctional requirements. Resolved ambiguity and inconsistencies, then wrote measurable acceptance criteria.
 
-```powershell
-dotnet run --project "./Emergency-Dispatch-Priority-and-Coordination-System/DispatchWeb/DispatchWeb.csproj"
+2. **Design and build the prototype.** Applied SOLID principles, repository and strategy patterns, and dependency injection. Separated business rules, application services, database access and the web interface using Razor Pages and SQLite.
+
+3. **Plan testing around risk.** Prioritised security, performance and reliability risks. Set the test scope and entry and exit criteria, and linked requirements to test cases through a traceability matrix.
+
+4. **Design test cases.** Used equivalence partitioning, boundary value analysis, decision tables and state transitions. Covered expected behaviour, invalid input, unavailable resources and failure conditions.
+
+5. **Execute and automate tests.** Combined manual workflow checks with MSTest unit, integration and HTTP tests. Checked concurrent assignments, recovery after restarts, access control, password hashing, data encryption and response times.
+
+6. **Investigate and fix defects.** Tracked severity and priority in a defect register and investigated root causes using Five Whys. Fixed data loss, notification failures and test database isolation, then retested and added regression coverage.
+
+7. **Add continuous integration.** Configured GitHub Actions to build the solution, run smoke tests and the full suite, and retain test reports.
+
+8. **Evaluate the evidence.** Updated requirements as the implementation changed, compared results with acceptance criteria and documented remaining gaps in load testing, network security and access control coverage.
+
+Read the [requirements and test plan](requirements-and-test-plan.pdf) and [implementation and verification report](implementation-and-verification-report.pdf) for the full process and evidence.
+
+## Running locally
+
+With the .NET 10 SDK installed:
+
+```bash
+dotnet run --project src/DispatchWeb
 ```
 
-Open the local URL shown by ASP.NET Core. Runtime data is stored in
-`Emergency-Dispatch-Priority-and-Coordination-System/DispatchWeb/Data/dispatch.db`. The AES key used
-by this local prototype is stored beside it as `dispatch.db.key`. Keep both files together when moving
-the prototype and do not commit either file.
+Open the URL shown in the terminal. Use the demo Admin account (`admin` / `admin-demo`) to explore all roles. This is a local demonstration, not a system for real emergency operations.
 
-The application seeds fake demonstration accounts into SQLite on first use. Representative accounts
-are `dispatch01` / `dispatch-demo`, `medical01` / `department-demo`, `med01` / `unit-demo`, and
-`admin` / `admin-demo`. Passwords are stored as salted PBKDF2 hashes, not plaintext. These shared
-demonstration passwords and the prototype Admin role are not a production authentication design.
+Run the tests from the repository root:
 
-## Main workflow
-
-1. A dispatcher records caller, incident, location, coordinates, severity, and required departments.
-2. The system creates the case, applies department keyword rules, and uses reported severity when no
-   keyword matches. An authorised dispatcher may override the result with a mandatory reason.
-3. The case appears only on selected department dashboards. The nearest available compatible unit is
-   assigned using Haversine distance; uncovered work remains in the waiting queue.
-4. Assigned response units see their incident and travel distance, then sign off individually.
-5. A released unit is offered to the oldest compatible waiting case. The original case closes only
-   after every required department response has signed off.
-6. Dispatchers can search history and open a printable case report. Important workflow actions are
-   retained in the persistent audit log.
-
-Dashboards reload every five seconds. Cases, units, assignments, notifications, accounts, priority
-overrides, and audit events survive application restart. Selected sensitive fields are encrypted at
-rest using AES-GCM.
-
-## Roles
-
-- Dispatcher: record cases, monitor current work, override priority, search history and view reports.
-- Department: view only cases routed to its department and manage its response-unit details.
-- Response unit: view and sign off only its assigned response work.
-- Admin: inspect all prototype interfaces and the audit log for testing and demonstration.
-
-Access is checked on the server using an HTTP-only authentication cookie, role claims, scope claims,
-middleware, and case-report scope checks. Hiding a navigation link is not treated as authorisation.
-
-## Architecture
-
-- `Domain` owns cases, lifecycle rules, assignment history, units and availability.
-- `Application` coordinates dispatch through `DispatchService` and repository interfaces.
-- `Logic` contains replaceable priority and nearest-unit assignment strategies.
-- `Infrastructure` contains SQLite and in-memory test repository implementations.
-- `DispatchWeb` contains Razor Pages, authentication, role interfaces and printable reporting.
-- `Test` contains MSTest unit, integration, database, security, performance and HTTP tests.
-
-## Build and test
-
-```powershell
-dotnet build .\Emergency-Dispatch-Priority-and-Coordination-System\Emergency-Dispatch-Priority-and-Coordination-System.slnx --warnaserror
-dotnet test .\Emergency-Dispatch-Priority-and-Coordination-System\Emergency-Dispatch-Priority-and-Coordination-System.slnx --no-build
+```bash
+dotnet test Dispatch.slnx
 ```
 
-The commands above provide the current local quality workflow. Final Assignment 2 evidence is in:
+## Contributors
 
-- `docs/final-test-and-release-evidence.md`
-- `docs/final-defect-register.md`
-
-## Reports and supporting documents
-
-The submitted reports and their separate appendices are in the repository root:
-
-- `Quality Assurance Mid-Project Report (23211788, 23217987, 23204035).pdf`
-- `Quality Assurance Mid-Project Report (23211788, 23217987, 23204035) Appendix.pdf`
-- `Quality Assurance final-Project Report (23211788, 23217987, 23204035).pdf`
-- `Quality Assurance Final-Project Report (23211788, 23217987, 23204035) Appendix.pdf`
-
-The Markdown files in `docs/` contain test cases, traceability, design conformance notes, and release evidence.
-
-## Prototype limitations
-
-Routing is internal visibility and coordination, not an external emergency-service connection.
-Coordinates are entered manually, dashboard updates use polling, the encryption key is a local file,
-and production identity, key management, monitoring, load testing, privacy review, accessibility
-validation, and operational safety certification are outside this university prototype.
+<table>
+  <tr>
+    <td align="center" valign="top" width="1000">
+      <br>
+      <a href="https://github.com/LeoCaoProjects"><img src="https://github.com/LeoCaoProjects.png?size=160" width="72" height="72" alt="Leo Cao"></a>
+      <p><a href="https://github.com/LeoCaoProjects"><strong>Leo Cao</strong></a></p>
+      <br>
+    </td>
+    <td align="center" valign="top" width="1000">
+      <br>
+      <a href="https://github.com/fatehbhular"><img src="https://github.com/fatehbhular.png?size=160" width="72" height="72" alt="Fateh Bhular"></a>
+      <p><a href="https://github.com/fatehbhular"><strong>Fateh Bhular</strong></a></p>
+      <br>
+    </td>
+    <td align="center" valign="top" width="1000">
+      <br>
+      <a href="https://github.com/ShawnLeeyz"><img src="https://github.com/ShawnLeeyz.png?size=160" width="72" height="72" alt="Shawn Lee"></a>
+      <p><a href="https://github.com/ShawnLeeyz"><strong>Shawn Lee</strong></a></p>
+      <br>
+    </td>
+  </tr>
+</table>
